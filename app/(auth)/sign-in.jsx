@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "../../constants";
 import FormField from "../../components/FormField";
 import CustomButton from "../../components/CustomButton";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { signIn } from "../../lib/appwrite";
 
 const SignIn = () => {
@@ -51,7 +51,7 @@ const SignIn = () => {
             placeholder="Your email address"
             handleChangeText={(text) => setForm({ ...form, email: text })}
             otherStyles="mt-7"
-            inputMode="email-address"
+            keyboardType="email-address"
           />
           <FormField
             title="Password"
