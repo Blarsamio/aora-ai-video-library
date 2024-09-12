@@ -4,13 +4,16 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "../constants";
 import CustomButton from "../components/CustomButton";
 import { StatusBar } from "expo-status-bar";
-import { router } from "expo-router";
+import { Redirect, router } from "expo-router";
+import { useGlobalContext } from "../context/GlobalProvider";
 
 NativeWindStyleSheet.setOutput({
   default: "native",
 });
 
 export default function App() {
+  const {isLoading, isLogged} = useGlobalContext();
+  if(!isLoading && isLogged) return <Redirect href="/home" />
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView
@@ -36,7 +39,7 @@ export default function App() {
             </Text>
             <Image
               source={images.path}
-              className="w-[116px] h-[15px] absolute -bottom-1 right-3"
+              className="w-[116px] h-[15px] absolute -bottom-2 -right-5"
               resizeMode="contain"
             ></Image>
           </View>

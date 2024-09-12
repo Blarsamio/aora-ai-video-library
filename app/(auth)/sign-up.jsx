@@ -4,26 +4,28 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "../../constants";
 import FormField from "../../components/FormField";
 import CustomButton from "../../components/CustomButton";
-import { Link } from "expo-router";
-import { signIn } from "../../lib/appwrite";
+import { Link, router } from "expo-router";
+import { createUser } from "../../lib/appwrite";
 
-const SignIn = () => {
+const SignUp = () => {
   const [form, setForm] = useState({
+    username: "",
     email: "",
     password: "",
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const submit = async () => {
-    if (!form.email || !form.password) {
+    if (form.username === "" || form.email === "" || form.password === "") {
       Alert.alert("Error", "Please fill all fields");
       return;
     }
     setIsSubmitting(true);
 
     try {
-      await signIn(form.email, form.password);
+      const result = await createUser(form.email, form.password, form.username);
+      console.log(result);
       router.replace("/home");
     } catch (error) {
       console.error(error);
@@ -36,22 +38,29 @@ const SignIn = () => {
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView>
-        <View className="w-full justify-center min-h-[84vh] px-4 my-6">
+        <View className="w-full justify-center min-h-[87vh] px-4 my-6">
           <Image
             source={images.logo}
             className="w-[115px] h-[35px]"
             resizeMode="contain"
           />
           <Text className="text-smoke text-2xl text-semibold mt-10 font-psemibold">
-            Sign In
+            Create an account
           </Text>
+          <FormField
+            title="Username"
+            value={form.username}
+            placeholder="Your username"
+            handleChangeText={(text) => setForm({ ...form, username: text })}
+            otherStyles="mt-10"
+          />
           <FormField
             title="Email"
             value={form.email}
             placeholder="Your email address"
             handleChangeText={(text) => setForm({ ...form, email: text })}
             otherStyles="mt-7"
-            inputMode="email-address"
+            keyboardType="email-address"
           />
           <FormField
             title="Password"
@@ -61,15 +70,20 @@ const SignIn = () => {
             otherStyles="mt-7"
           />
           <CustomButton
-            title="Sign In"
+            title="Create Account"
             containerStyle="mt-7"
             handlePress={submit}
             isLoading={isSubmitting}
           />
           <View className="justify-center pt-5 flex-row gap-2">
             <Text className="text-lg text-smoke font-pregular">
-              Don't have an account?{" "}
-              <Link href="/sign-up" className="text-lg font-psemibold text-secondary">Sign Up </Link>
+              Have an account already?{" "}
+              <Link
+                href="/sign-in"
+                className="text-lg font-psemibold text-secondary"
+              >
+                Sign In
+              </Link>
             </Text>
           </View>
         </View>
@@ -78,4 +92,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignUp;
