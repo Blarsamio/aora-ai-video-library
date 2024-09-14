@@ -98,7 +98,7 @@ const Create = () => {
               />
             ) : (
               <View className="w-full h-40 px-4 bg-onix-100/50 justify-center items-center rounded-2xl">
-                <View className="w-14 h-14 border border-dashed border-secondary-100 justify-center items-center">
+                <View className="w-14 h-14 border border-dashed border-secondary-100 justify-center items-center rounded-lg">
                   <Image
                     source={icons.upload}
                     resizeMode="contain"

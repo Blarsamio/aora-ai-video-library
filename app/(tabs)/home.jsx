@@ -11,7 +11,7 @@ import VideoCard from "../../components/VideoCard";
 import { useGlobalContext } from "../../context/GlobalProvider";
 
 const Home = () => {
-  const { user, setUser, setIsLogged } = useGlobalContext();
+  const { user } = useGlobalContext();
   const { data: posts, refetch } = useAppwrite(getAllPosts);
   const { data: latestPosts } = useAppwrite(getLatestPosts);
   const [refreshing, setRefreshing] = useState(false);
@@ -49,7 +49,9 @@ const Home = () => {
               </View>
             </View>
 
-            <SearchInput />
+            <SearchInput
+              placeholder={"Search for videos"}
+            />
 
             <View className="w-full flex-1 pt-5 pb-8">
               <Text className="text-smoke text-lg font-pregular mb-3">
@@ -66,7 +68,7 @@ const Home = () => {
             subtitle="Be the first to upload a video"
           />
         )}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={setRefreshing} />}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       />
     </SafeAreaView>
   );

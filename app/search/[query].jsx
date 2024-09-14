@@ -2,6 +2,8 @@ import {
   View,
   Text,
   FlatList,
+  TouchableOpacity,
+  Image,
 } from "react-native";
 import React, { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -10,7 +12,8 @@ import EmptyState from "../../components/EmptyState";
 import { searchPosts } from "../../lib/appwrite";
 import useAppwrite from "../../lib/useAppwrite";
 import VideoCard from "../../components/VideoCard";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
+import { icons } from "../../constants";
 
 const Search = () => {
   const { query } = useLocalSearchParams();
@@ -18,6 +21,9 @@ const Search = () => {
   useEffect(() => {
     refetch();
   }, [query]);
+  const handleBackPress = () => {
+    router.back();
+  }
 
   return (
     <SafeAreaView className="bg-primary h-full">
@@ -30,6 +36,12 @@ const Search = () => {
             <Text className="font-pmedium text-sm text-smoke-200">
               Search Results
             </Text>
+            <TouchableOpacity
+              className="w-full items-end mb-10 absolute right-4 top-0"
+              onPress={handleBackPress}
+            >
+              <Image source={icons.logout} className="w-6 h-6" resizeMode="contain" />
+            </TouchableOpacity>
             <Text className="text-2xl font-psemibold text-smoke">{query}</Text>
             <View className="mt-6 mb-8">
               <SearchInput initialQuery={query} />
